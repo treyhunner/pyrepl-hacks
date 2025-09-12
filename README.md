@@ -166,8 +166,8 @@ Here are some of the interesting commands provided by Python (in `_pyrepl.comman
 
 - `clear-screen`: Clear screen (`Ctrl+L`)
 - `accept`: Run current code block (`Alt+Enter`)
-- `beginning-of-line`: Move cursor to the first character of the current line (`Ctrl+A`)
-- `end-of-line`: Move cursor to the last character of the current line (`Ctrl+E`)
+- `beginning-of-line`: Move cursor to the first character of the current line (`Ctrl+A` or `Home`)
+- `end-of-line`: Move cursor to the last character of the current line (`Ctrl+E` or `End`)
 - `home`: Move cursor the first character in the code block
 - `end`: Move cursor the last character in the code block
 - `kill-line`: Delete to end of line (`Ctrl+K`)
