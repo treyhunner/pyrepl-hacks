@@ -1,4 +1,4 @@
-# pyrepl-hacks
+# pyrepl-hacks 🙀
 
 Hacky extensions and helper functions for the new Python REPL.
 
@@ -27,7 +27,7 @@ def subprocess_run(reader, event_name, event):
 ```
 
 
-## ⚠️ WARNING: this could all break
+## ⚠️ WARNING: here be dragons 🐉
 
 This library relies on Python implementation details which may change in future Python versions.
 
@@ -38,7 +38,7 @@ That means that when you upgrade to a newer Python (for example Python 3.15) thi
 For that reason, the Python versions this package claims to work with are pinned to only known-to-be-working Python versions.
 
 
-## Installing
+## Installing 💾
 
 To install globally:
 
@@ -78,7 +78,7 @@ uvx --with pyrepl-hacks python
 ```
 
 
-## Command Registering and Key Binding
+## Command Registering and Key Binding ⌨️
 
 This library includes features for easily registering and binding new REPL commands.
 
@@ -160,7 +160,7 @@ Since there's not much point in making a new command *without* binding it, you'l
 Just like `register_command`, `bind` decorator can also accept a `with_event=True` argument to pass the event name and event object into the command function.
 
 
-## Available Commands
+## Available Commands 📑
 
 Here are some of the interesting commands provided by Python (in `_pyrepl.commands`):
 
@@ -205,7 +205,7 @@ from repl.commands import move_to_indentation, clear_screen
 ```
 
 
-## Customizing Your Syntax Theme
+## Customizing Your Syntax Theme 🎨
 
 Python 3.14 includes syntax highlighting in the REPL.
 
@@ -247,7 +247,7 @@ Each supports the modifiers `bold`, `intense`, `background` and `intense backgro
 Also the "color" of `reset` will reset all modifiers.
 
 
-## The Future is Obsolescence?
+## The Future is Obsolescence? 🦤
 
 My hope is that this package will be obsolete one day.
 
