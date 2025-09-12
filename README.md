@@ -205,6 +205,48 @@ from repl.commands import move_to_indentation, clear_screen
 ```
 
 
+## Customizing Your Syntax Theme
+
+Python 3.14 includes syntax highlighting in the REPL.
+
+You can use the `update_theme` command from pyrepl-hacks to customize the colors your REPL uses:
+
+```python
+try:
+    import pyrepl_hacks as repl
+
+    repl.update_theme(
+        keyword="green",
+        builtin="blue",
+        comment="intense blue",
+        string="cyan",
+        number="cyan",
+        definition="blue",
+        soft_keyword="bold green",
+        op="intense green",
+        reset="reset, intense green",
+    )
+except ImportError:
+    pass  # We're on Python 3.13 or below
+```
+
+These are the supported colors:
+
+- `black`
+- `blue`
+- `cyan`
+- `green`
+- `grey`
+- `magenta`
+- `red`
+- `white`
+- `yellow`
+
+Each supports the modifiers `bold`, `intense`, `background` and `intense background`.
+
+Also the "color" of `reset` will reset all modifiers.
+
+
 ## The Future is Obsolescence?
 
 My hope is that this package will be obsolete one day.

@@ -1,5 +1,6 @@
 def _convert_color(color):
     """Convert strings like 'reset, intense blue' into valid color."""
+    from _colorize import ANSIColors
     subcolors = color.split(",")
     return "".join(
         getattr(ANSIColors, c.strip().replace(" ", "_").upper())
@@ -8,7 +9,7 @@ def _convert_color(color):
 
 
 def update_theme(**kwargs):
-    from _colorize import set_theme, default_theme, Syntax, ANSIColors
+    from _colorize import set_theme, default_theme, Syntax
     items = {
         name: _convert_color(color)
         for name, color in kwargs.items()
