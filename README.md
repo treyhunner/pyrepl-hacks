@@ -65,7 +65,7 @@ def _main():
         repl.bind_to_insert("Ctrl+N", "[2, 1, 3, 4, 7, 11, 18, 29]")
 
 _main()
-del _main  # Don't polute the global namespace in our REPL
+del _main  # Don't pollute the global namespace in our REPL
 ```
 
 Note that this will only modify the REPL in environments where `pyrepl-hacks` is installed.
@@ -177,6 +177,8 @@ Here are some of the interesting commands provided by Python (in `_pyrepl.comman
 - `backward-kill-word`:  Delete to beginning of word (`Alt+Backspace`)
 - `kill-word`:  Delete to end of word (`Alt+D`)
 
+[See here for which keyboard shortcuts these are bound to by default](https://www.pythonmorsels.com/repl-features/#keyboard-shortcuts).
+
 This `pyrepl-hacks` project provides some additional commands as well:
 
 - `move-to-indentation`: Move to first non-space in current line
@@ -201,7 +203,7 @@ Note that these custom REPL commands and all existing commands provided by `_pyr
 These functions are named the same as their command name, except `-` must be replaced by `_`:
 
 ```python
-from repl.commands import move_to_indentation, clear_screen
+from pyrepl_hacks.commands import move_to_indentation, clear_screen
 ```
 
 
@@ -248,6 +250,8 @@ Also the "color" of `reset` will reset all modifiers.
 
 
 ## The Future is Obsolescence? 🦤
+
+This project came out of the things I learned while [hacking on my own REPL shortcuts](https://treyhunner.com/2024/10/adding-keyboard-shortcuts-to-the-python-repl/) and [customizing my REPL's syntax highlighting](https://treyhunner.com/2025/09/customizing-your-python-repl-color-scheme/).
 
 My hope is that this package will be obsolete one day.
 
