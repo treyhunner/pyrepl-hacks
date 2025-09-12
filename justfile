@@ -31,6 +31,9 @@ setup:
 prek:
     uv run --group dev prek run
 
+# Bump version
+bump value:
+    uv version --bump {{ value }}
 
 # Python Python package
 build:
