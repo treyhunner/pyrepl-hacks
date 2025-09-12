@@ -62,34 +62,3 @@ class TestThemeUtils(unittest.TestCase):
             mock_convert_color.assert_any_call("green")
             mock_convert_color.assert_any_call("blue")
             self.assertEqual(mock_convert_color.call_count, 2)
-
-    def test_convert_color_import_error(self):
-        """Test that _convert_color handles ImportError gracefully."""
-        from pyrepl_hacks.theme_utils import _convert_color
-
-        # This should trigger the import of ANSIColors and likely fail
-        # in the test environment, but we need to cover that code path
-        try:
-            result = _convert_color("red")
-            # If it succeeds, great - the import worked
-            self.assertIsInstance(result, str)
-        except ImportError as e:
-            # This is expected when _colorize is not available
-            self.assertIn("_colorize", str(e))
-
-    def test_import_availability(self):
-        """Test that we can handle missing _colorize module gracefully."""
-        # This test just ensures our import structure is sound
-        try:
-            from pyrepl_hacks import theme_utils
-
-            # If we get here, the module imported successfully
-            self.assertTrue(hasattr(theme_utils, "update_theme"))
-            self.assertTrue(hasattr(theme_utils, "_convert_color"))
-        except ImportError as e:
-            if "_colorize" in str(e):
-                # This is expected in test environment
-                self.skipTest("_colorize module not available in test environment")
-            else:
-                # This is an unexpected import error
-                raise

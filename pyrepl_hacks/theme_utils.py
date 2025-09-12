@@ -1,7 +1,8 @@
+from _colorize import ANSIColors
+
+
 def _convert_color(color):
     """Convert strings like 'reset, intense blue' into valid color."""
-    from _colorize import ANSIColors
-
     subcolors = color.split(",")
     return "".join(
         getattr(ANSIColors, c.strip().replace(" ", "_").upper()) for c in subcolors
