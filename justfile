@@ -16,10 +16,11 @@ test-html *args:
     @echo "Opening coverage report generated at htmlcov/index.html"
     uv run python -m webbrowser htmlcov/index.html
 
-# Format code with ruff
+# Format code with ruff and markdown with rumdl
 fmt:
     uv run --group lint ruff check --fix
     uv run --group lint ruff format
+    uv run --group lint rumdl fmt --fix
 
 # Install prek git hooks
 setup:

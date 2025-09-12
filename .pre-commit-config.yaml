@@ -15,6 +15,13 @@ repos:
         types: [python]
         pass_filenames: false
 
+      - id: rumdl-format
+        name: Format markdown with rumdl
+        entry: uv run --group lint rumdl fmt --fix
+        language: system
+        types: [markdown]
+        pass_filenames: false
+
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.6.0
     hooks:

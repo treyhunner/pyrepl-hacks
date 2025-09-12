@@ -1,0 +1,10 @@
+[global]
+disable = ["MD013"]
+exclude = [
+    ".git",
+    "dist",
+    "build",
+]
+
+[MD012]
+maximum = 2  # Maximum number of consecutive blank lines allowed

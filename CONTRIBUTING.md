@@ -47,4 +47,5 @@ These tools will be auto-installed with uv as needed:
 
 - [prek](https://github.com/pre-commit/pre-commit) for pre-commit hooks to lint & format code
 - [ruff](https://docs.astral.sh/ruff/) for linting & auto-formatting Python code
+- [rumdl](https://github.com/rvben/rumdl) for linting & auto-formatting markdown
 - [coverage](https://coverage.readthedocs.io) for measuring code coverage

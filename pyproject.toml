@@ -14,7 +14,7 @@ Source = "https://github.com/treyhunner/pyrepl-hacks"
 
 [dependency-groups]
 test = ["coverage[toml]"]
-lint = ["ruff"]
+lint = ["ruff", "rumdl"]
 dev = ["prek"]
 
 [tool.coverage.run]
