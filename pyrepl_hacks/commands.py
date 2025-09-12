@@ -14,7 +14,7 @@ def move_to_indentation(reader):
     x, y = reader.pos2xy()
     lines = reader.get_unicode().splitlines(keepends=True)
     line = lines[y]
-    if match := re.search(r"^\s+", line):
+    if match := re.search(r"^[ \t]+", line):
         index = match.end()
     else:
         index = 0

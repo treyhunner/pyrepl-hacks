@@ -12,3 +12,8 @@ Documentation = "https://github.com/treyhunner/pyrepl-hacks#readme"
 Issues = "https://github.com/treyhunner/pyrepl-hacks/issues"
 Source = "https://github.com/treyhunner/pyrepl-hacks"
 
+[dependency-groups]
+test = ["coverage[toml]"]
+
+[tool.coverage.run]
+source = ["pyrepl_hacks", "tests"]
