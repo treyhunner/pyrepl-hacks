@@ -1,0 +1,14 @@
+[project]
+name = "pyrepl-hacks"
+version = "0.1.0"
+description = "Hacky extensions and helper functions for the new Python REPL."
+readme = "README.md"
+requires-python = ">=3.13,<3.15"
+license = "MIT"
+dependencies = []
+
+[project.urls]
+Documentation = "https://github.com/treyhunner/pyrepl-hacks#readme"
+Issues = "https://github.com/treyhunner/pyrepl-hacks/issues"
+Source = "https://github.com/treyhunner/pyrepl-hacks"
+
