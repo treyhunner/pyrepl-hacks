@@ -21,14 +21,9 @@ fmt:
     uv run --group lint ruff check --fix
     uv run --group lint ruff format
 
-# Run all quality checks (format, lint, test)
-check:
-    just fmt
-    just lint
-    just test
-
 # Install prek git hooks
-install-hooks:
+setup:
+    uv sync --all-groups
     uv run --group dev prek install
 
 # Run prek hooks manually
