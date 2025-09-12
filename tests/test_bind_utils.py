@@ -1,5 +1,6 @@
 import unittest
-from unittest.mock import patch, MagicMock
+from unittest.mock import MagicMock, patch
+
 from pyrepl_hacks.bind_utils import bind, bind_to_insert
 from pyrepl_hacks.command_utils import register_command
 
@@ -201,7 +202,7 @@ class TestCommandUtils(unittest.TestCase):
         command_instance.event = "test_data"
 
         # The command's do method should call our function with the right args
-        result = command_instance.do()
+        command_instance.do()
         # We can't easily test the return value due to mocking, but we can verify
         # the command was created successfully
 

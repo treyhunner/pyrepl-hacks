@@ -1,9 +1,8 @@
-from _pyrepl.simple_interact import _get_reader
 from _pyrepl.commands import Command
+from _pyrepl.simple_interact import _get_reader
 from collections.abc import Callable
 
-
-__all__ = ["register_command", "custom_commands"]
+__all__ = ["register_command"]
 
 
 def under_to_kebab(name):
@@ -20,6 +19,7 @@ def register_command(command_name: str = None, /, *, with_event: bool = False):
                 return command_function(self.reader, self.event_name, self.event)
             else:
                 return command_function(self.reader)
+
         command_class = type(
             name,
             (Command,),
@@ -30,6 +30,7 @@ def register_command(command_name: str = None, /, *, with_event: bool = False):
         command_function.command_class = command_class
         command_function.name = name
         return command_function
+
     if isinstance(command_name, Callable):
         command_function = command_name
         command_name = None

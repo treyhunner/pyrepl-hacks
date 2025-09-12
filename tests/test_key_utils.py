@@ -1,5 +1,6 @@
 import unittest
-from pyrepl_hacks.key_utils import to_keyspec, slugify, SPECIAL_CASES
+
+from pyrepl_hacks.key_utils import SPECIAL_CASES, slugify, to_keyspec
 
 
 class TestSlugify(unittest.TestCase):

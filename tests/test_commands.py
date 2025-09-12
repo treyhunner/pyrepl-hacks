@@ -1,11 +1,13 @@
 import unittest
+
 from pyrepl_hacks.commands import (
-    move_to_indentation,
     dedent,
     move_line_down,
     move_line_up,
+    move_to_indentation,
 )
-from .support import MockReader, ReaderTestMixin
+
+from .support import ReaderTestMixin
 
 
 class TestMoveToIndentation(unittest.TestCase, ReaderTestMixin):
@@ -283,13 +285,12 @@ class TestCommandsIntegration(unittest.TestCase, ReaderTestMixin):
 
                 # Try to call it with mock reader - this exercises line 106
                 reader = self.create_reader("test text", pos=4)
-                try:
+                from contextlib import suppress
+
+                with suppress(Exception):
                     # Some commands might fail due to missing console/etc, but we
                     # just want to test the wrapper function exists and is callable
                     cmd_func(reader, "test_event", "test_data")
-                except Exception:
-                    # Expected - the commands need real _pyrepl environment
-                    pass
 
     def test_mock_reader_bounds_checking(self):
         """Test MockReader handles out-of-bounds positions."""

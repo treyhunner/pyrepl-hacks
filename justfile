@@ -14,6 +14,25 @@ test-html *args:
     @echo "Opening coverage report generated at htmlcov/index.html"
     uv run python -m webbrowser htmlcov/index.html
 
+# Format code with ruff
+fmt:
+    uv run --group lint ruff check --fix
+    uv run --group lint ruff format
+
+# Run all quality checks (format, lint, test)
+check:
+    just fmt
+    just lint
+    just test
+
+# Install prek git hooks
+install-hooks:
+    uv run --group dev prek install
+
+# Run prek hooks manually
+run-hooks:
+    uv run --group dev prek run
+
 
 # Python Python package
 build:

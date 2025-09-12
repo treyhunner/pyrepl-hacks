@@ -47,7 +47,9 @@ def assert_buffer_equals(test_case, reader, expected_text):
     """Assert that the reader's buffer contains the expected text."""
     actual = reader.get_unicode()
     test_case.assertEqual(
-        actual, expected_text, f"Expected buffer: {expected_text!r}, got: {actual!r}"
+        actual,
+        expected_text,
+        f"Expected buffer: {expected_text!r}, got: {actual!r}",
     )
 
 

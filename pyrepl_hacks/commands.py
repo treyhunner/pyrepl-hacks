@@ -3,7 +3,6 @@ import textwrap
 
 from .command_utils import register_command
 
-
 # _pyrepl.commands are also included later (see _add_pyrepl_commands)
 __all__ = ["move_to_indentation", "dedent", "move_line_down", "move_line_up"]
 
@@ -14,10 +13,7 @@ def move_to_indentation(reader):
     x, y = reader.pos2xy()
     lines = reader.get_unicode().splitlines(keepends=True)
     line = lines[y]
-    if match := re.search(r"^[ \t]+", line):
-        index = match.end()
-    else:
-        index = 0
+    index = match.end() if (match := re.search(r"^[ \t]+", line)) else 0
     reader.pos = reader.bol() + index
 
 
@@ -38,7 +34,7 @@ def dedent(reader):
     dedented_lines = dedented_text.splitlines()
     removed_characters = sum(
         len(old) - len(new)
-        for old, new in zip(original_lines[:y+1], dedented_lines)
+        for old, new in zip(original_lines[: y + 1], dedented_lines, strict=False)
     )
     reader.pos -= removed_characters
 
@@ -54,7 +50,7 @@ def move_line_down(reader):
         return
 
     # Swap current line with next line
-    lines[y], lines[y+1] = lines[y+1], lines[y]
+    lines[y], lines[y + 1] = lines[y + 1], lines[y]
 
     if not lines[y].endswith("\n"):
         lines[y] += "\n"
@@ -79,7 +75,7 @@ def move_line_up(reader):
         return
 
     # Swap current line with previous line
-    lines[y-1], lines[y] = lines[y], lines[y-1]
+    lines[y - 1], lines[y] = lines[y], lines[y - 1]
 
     # Update buffer with swapped lines
     reader.buffer[:] = list("".join(lines))
@@ -94,17 +90,21 @@ def _add_pyrepl_commands():
     """Create simple command functions for all _pyrepl commands also."""
     import _pyrepl.commands
     from functools import wraps
+
     for name, value in vars(_pyrepl.commands).items():
         if (
-                isinstance(value, type)
-                and issubclass(value, _pyrepl.commands.Command)
-                and hasattr(value, "do")
+            isinstance(value, type)
+            and issubclass(value, _pyrepl.commands.Command)
+            and hasattr(value, "do")
         ):
+
             def wrapper(command_class):
-                @wraps(value, assigned=["__name__", "__doc__"], updated=[])
+                @wraps(command_class, assigned=["__name__", "__doc__"], updated=[])
                 def command_function(reader, event_name, event):
                     return command_class(reader, event_name, event).do()
+
                 return command_function
+
             globals()[name] = wrapper(value)
             __all__.append(name)
 
