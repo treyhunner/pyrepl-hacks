@@ -32,7 +32,7 @@ install-hooks:
     uv run --group dev prek install
 
 # Run prek hooks manually
-run-hooks:
+prek:
     uv run --group dev prek run
 
 
