@@ -1,14 +1,16 @@
 import re
 import textwrap
+from typing import cast
 
+from ._types import Command, CommandFunction, HistoricalReader
 from .command_utils import register_command
 
 # _pyrepl.commands are also included later (see _add_pyrepl_commands)
 __all__ = ["move_to_indentation", "dedent", "move_line_down", "move_line_up"]
 
 
-@register_command
-def move_to_indentation(reader):
+@register_command  # type: ignore[call-overload]
+def move_to_indentation(reader: HistoricalReader) -> None:
     """Move to the start of indentation for the current line."""
     x, y = reader.pos2xy()
     lines = reader.get_unicode().splitlines(keepends=True)
@@ -17,8 +19,8 @@ def move_to_indentation(reader):
     reader.pos = reader.bol() + index
 
 
-@register_command
-def dedent(reader):
+@register_command  # type: ignore[call-overload]
+def dedent(reader: HistoricalReader) -> None:
     """Dedent the current code block."""
     x, y = reader.pos2xy()
     original_text = reader.get_unicode()
@@ -39,8 +41,8 @@ def dedent(reader):
     reader.pos -= removed_characters
 
 
-@register_command
-def move_line_down(reader):
+@register_command  # type: ignore[call-overload]
+def move_line_down(reader: HistoricalReader) -> None:
     """Move the current line down."""
     x, y = reader.pos2xy()
     lines = reader.get_unicode().splitlines(keepends=True)
@@ -64,8 +66,8 @@ def move_line_down(reader):
     reader.pos += len(lines[y])
 
 
-@register_command
-def move_line_up(reader):
+@register_command  # type: ignore[call-overload]
+def move_line_up(reader: HistoricalReader) -> None:
     """Move the current line up."""
     x, y = reader.pos2xy()
     lines = reader.get_unicode().splitlines(keepends=True)
@@ -86,7 +88,7 @@ def move_line_up(reader):
     reader.pos -= len(lines[y])
 
 
-def _add_pyrepl_commands():
+def _add_pyrepl_commands() -> None:
     """Create simple command functions for all _pyrepl commands also."""
     import _pyrepl.commands
     from functools import wraps
@@ -98,12 +100,19 @@ def _add_pyrepl_commands():
             and hasattr(value, "do")
         ):
 
-            def wrapper(command_class):
+            def wrapper(command_class: type[Command]) -> CommandFunction:
                 @wraps(command_class, assigned=["__name__", "__doc__"], updated=[])
-                def command_function(reader, event_name, event):
-                    return command_class(reader, event_name, event).do()
+                def command_function(
+                    reader: HistoricalReader,
+                    event_name: str,
+                    event: str,
+                ) -> None:
+                    command_class(reader, event_name, event).do()
 
-                return command_function
+                func = cast(CommandFunction, command_function)
+                func.command_class = command_class
+                func.name = command_class.__name__
+                return func
 
             globals()[name] = wrapper(value)
             __all__.append(name)

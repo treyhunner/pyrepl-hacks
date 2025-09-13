@@ -15,6 +15,7 @@ Source = "https://github.com/treyhunner/pyrepl-hacks"
 [dependency-groups]
 test = ["coverage[toml]"]
 lint = ["ruff", "rumdl"]
+typecheck = ["mypy"]
 dev = ["prek"]
 
 [tool.coverage.run]
@@ -39,3 +40,11 @@ extend-select = [
 quote-style = "double"
 indent-style = "space"
 skip-magic-trailing-comma = false
+
+[tool.mypy]
+python_version = "3.13"
+
+# Ignore missing imports for _pyrepl and _colorize since mypy can't find them
+[[tool.mypy.overrides]]
+module = ["_pyrepl.*", "_colorize"]
+ignore_missing_imports = true

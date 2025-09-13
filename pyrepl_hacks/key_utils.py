@@ -1,3 +1,7 @@
+from ._types import CommandName, KeyBinding, KeySpec
+
+__all__ = ["slugify", "to_keyspec"]
+
 bindings_to_specs = {
     "ctrl": r"\C",
     "alt": r"\M",
@@ -29,12 +33,12 @@ SPECIAL_CASES = {
 }
 
 
-def slugify(keybinding):
+def slugify(keybinding: KeyBinding) -> CommandName:
     """Create unique slug for keybinding."""
     return "_" + "".join(c if c.isalnum() else "_" for c in keybinding)
 
 
-def to_keyspec(keybinding: str):
+def to_keyspec(keybinding: KeyBinding) -> KeySpec:
     r"""Convert human-readable bindings to specs (e.g. Ctrl+A to \C-a)."""
     normalized = keybinding.lower().strip()
     if normalized in SPECIAL_CASES:
