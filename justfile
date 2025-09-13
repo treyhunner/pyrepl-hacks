@@ -2,11 +2,28 @@
 _default:
     @just --list --unsorted
 
-# Run the tests with coverage on both Python versions
+# Install prek git hooks
+setup:
+    uv sync --all-groups
+    uv run --group dev prek install
+
+# Run prek hooks manually
+prek:
+    uv run --group dev prek run
+
+# Run the tests on both Python versions
 test *args:
-    uv run --python 3.13 --group test coverage run -m unittest {{ args }}
-    uv run --python 3.14 --group test coverage run --append -m unittest {{ args }}
-    uv run --group test coverage report
+    #!/usr/bin/env bash
+    if [[ -n "{{ args }}" ]]; then
+        # Run without coverage
+        uv run --python 3.13 --group test python -m unittest {{ args }}
+        uv run --python 3.14 --group test python -m unittest {{ args }}
+    else
+        # Run with coverage
+        uv run --python 3.13 --group test coverage run -m unittest {{ args }}
+        uv run --python 3.14 --group test coverage run --append -m unittest {{ args }}
+        uv run --group test coverage report
+    fi
 
 # Run tests with coverage and generate HTML report
 test-html *args:
@@ -27,15 +44,6 @@ fmt:
 check:
     just fmt
     just test
-
-# Install prek git hooks
-setup:
-    uv sync --all-groups
-    uv run --group dev prek install
-
-# Run prek hooks manually
-prek:
-    uv run --group dev prek run
 
 # Bump version
 bump value:
