@@ -5,6 +5,25 @@ description = "Hacky extensions and helper functions for the new Python REPL."
 readme = "README.md"
 requires-python = ">=3.13,<3.15"
 license = "MIT"
+authors = [
+    {name = "Trey Hunner"}
+]
+keywords = ["repl", "python", "terminal", "keyboard", "shortcuts", "commands"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Programming Language :: Python :: 3 :: Only",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: System :: Shells",
+    "Topic :: Terminals",
+    "Typing :: Typed",
+]
 dependencies = []
 
 [project.urls]
