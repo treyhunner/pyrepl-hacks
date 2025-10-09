@@ -40,16 +40,22 @@ For that reason, the Python versions this package claims to work with are pinned
 
 ## Installing 💾
 
-To install globally:
+This package is meant to be installed in its own directory that will then be added to `sys.path` within [your `PYTHONSTARTUP` file][PYTHONSTARTUP].
+
+For example, you could install pyrepl-hacks into a `~/.pyhacks` directory:
 
 ```console
-pip install pyrepl-hacks
+mkdir -p ~/.pyhacks
+python -m pip install pyrepl-hacks --target ~/.pyhacks
 ```
 
-Then you can use it in [your `PYTHONSTARTUP` file][PYTHONSTARTUP]:
+Then you can use it in your `PYTHONSTARTUP` file:
 
 ```python
 def _main():
+    from pathlib import Path
+    import sys
+    sys.path.append(str(Path.home() / ".pyhacks"))
     try:
         import pyrepl_hacks as repl
     except ImportError:
@@ -68,14 +74,7 @@ _main()
 del _main  # Don't pollute the global namespace in our REPL
 ```
 
-Note that this will only modify the REPL in environments where `pyrepl-hacks` is installed.
-So if you want it everywhere, you would need to install `pyrepl-hacks` system-wide *and* in every virtual environment.
-
-If you just want to play with this tool, try this:
-
-```console
-uvx --with pyrepl-hacks python
-```
+Due to that `sys.path.append` call, this will modify the REPL in every Python environment you start.
 
 
 ## Command Registering and Key Binding ⌨️
