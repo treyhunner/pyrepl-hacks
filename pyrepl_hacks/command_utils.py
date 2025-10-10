@@ -1,3 +1,10 @@
+"""Core utilities for registering and managing REPL commands.
+
+This module provides the infrastructure for creating and registering custom
+REPL commands. Commands are functions that can be bound to key combinations
+and executed in response to user input.
+"""
+
 from __future__ import annotations
 
 from _pyrepl.simple_interact import _get_reader
@@ -43,6 +50,42 @@ def register_command(
     *,
     with_event: bool = False,
 ) -> CommandFunction | CommandRegistrar:
+    """Register a function as a REPL command.
+
+    This decorator transforms a regular function into a REPL command that can be
+    bound to key combinations. The command name is derived from the function name
+    by converting underscores to hyphens (e.g., "my_command" -> "my-command").
+
+    Usage patterns:
+
+    1. Direct decoration (auto-generated name):
+        # Creates command "my-function"
+        @register_command
+        def my_function(reader):
+            reader.insert("Hello!")
+
+    2. Registering a command with a custom name:
+        # Creates command "custom-name"
+        @register_command("custom-name")
+        def my_function(reader):
+            reader.insert("Hello!")
+
+    3. Registering a command with event parameters:
+        @register_command(with_event=True)
+        def event_handler(reader, event_name, event):
+            reader.insert(f"Event: {event_name}")
+
+    Args:
+        command_name: Name for the command, or the function to register.
+                      If None, uses the function name converted to kebab-case.
+        with_event: Whether the command function expects (reader, event_name, event)
+                    instead of just (reader). Defaults to False.
+
+    Returns:
+        Either a CommandFunction (when used directly) or a CommandRegistrar
+        decorator function (when used with parameters).
+    """
+
     def decorator(function: CommandHandler) -> CommandFunction:
         # Extract the actual name if command_name is a function
         if callable(command_name):

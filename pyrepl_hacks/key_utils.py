@@ -1,3 +1,5 @@
+"""Utilities for converting and normalizing key bindings."""
+
 from ._types import CommandName, KeyBinding, KeySpec
 
 __all__ = ["slugify", "to_keyspec"]
@@ -34,12 +36,41 @@ SPECIAL_CASES = {
 
 
 def slugify(keybinding: KeyBinding) -> CommandName:
-    """Create unique slug for keybinding."""
+    """Create a unique command name slug from a key binding.
+
+    Converts a human-readable key binding into a valid command name by
+    replacing non-alphanumeric characters with underscores and adding
+    a leading underscore.
+
+    Args:
+        keybinding: Human-readable key combination (e.g., "Ctrl+F")
+
+    Returns:
+        A command name suitable for registration (e.g., "_Ctrl_F"")
+    """
     return "_" + "".join(c if c.isalnum() else "_" for c in keybinding)
 
 
 def to_keyspec(keybinding: KeyBinding) -> KeySpec:
-    r"""Convert human-readable bindings to specs (e.g. Ctrl+A to \C-a)."""
+    r"""Convert human-readable key bindings to _pyrepl key specifications.
+
+    Handles modifier keys (Ctrl, Alt, Shift), function keys, arrow keys,
+    and some special key combinations.
+
+    Args:
+        keybinding: Human-readable key combination. Examples:
+                   - With modifiers: "Ctrl+F", "Alt+Up", "Shift+Tab"
+                   - Multi-key sequences: "Ctrl+X Ctrl+R"
+                   - Special keys: "F1", "Home", "PageUp"
+
+    Returns:
+        REPL key specification string. Examples:
+        - "Ctrl+F" -> r"\C-f"
+        - "Alt+M" -> r"\M-m"
+        - "Shift+Tab" -> r"\e[Z"
+        - "F4" -> r"\<f4>"
+        - "Ctrl+X Ctrl+R" -> r"\C-x\C-r"
+    """
     normalized = keybinding.lower().strip()
     if normalized in SPECIAL_CASES:
         return SPECIAL_CASES[normalized]
