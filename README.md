@@ -49,7 +49,7 @@ mkdir -p ~/.pyhacks
 python -m pip install pyrepl-hacks --target ~/.pyhacks
 ```
 
-Then you can use it in your `PYTHONSTARTUP` file:
+Then you can use it in a `~/.pythonrc` file:
 
 ```python
 def _main():
@@ -74,7 +74,15 @@ _main()
 del _main  # Don't pollute the global namespace in our REPL
 ```
 
-Due to that `sys.path.append` call, this will modify the REPL in every Python environment you start.
+And put this something like this in your shell configuration file (`~/.bashrc`, `~/.zshrc`, etc.):
+
+```bash
+export PYTHONSTARTUP="$HOME/.pythonrc"
+```
+
+This will modify the REPL in every Python environment you start.
+
+See [my blog post on pyrepl-hacks](https://treyhunner.com/2025/10/handy-python-repl-modifications/) for more explanation on `PYTHONSTARTUP` files and that `sys.path.append` call above.
 
 
 ## Command Registering and Key Binding ⌨️
