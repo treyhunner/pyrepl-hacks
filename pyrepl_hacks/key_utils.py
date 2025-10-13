@@ -1,5 +1,7 @@
 """Utilities for converting and normalizing key bindings."""
 
+from _pyrepl.keymap import _keynames
+
 from ._types import CommandName, KeyBinding, KeySpec
 
 __all__ = ["slugify", "to_keyspec"]
@@ -9,7 +11,10 @@ bindings_to_specs = {
     "alt": r"\M",
     "pgup": r"\<page up>",
     "pgdn": r"\<page down>",
+    "pageup": r"\<page up>",
+    "pagedown": r"\<page down>",
 }
+bindings_to_specs |= {name: rf"\<{name}>" for name in _keynames.keys()}
 
 
 # Cases that can't be handled by \C- or \M- notation
@@ -72,14 +77,21 @@ def to_keyspec(keybinding: KeyBinding) -> KeySpec:
         - "Ctrl+X Ctrl+R" -> r"\C-x\C-r"
     """
     normalized = keybinding.lower().strip()
-    if normalized in SPECIAL_CASES:
-        return SPECIAL_CASES[normalized]
     spec = ""
     for section in normalized.split():
-        spec += "-".join(
-            [
-                bindings_to_specs.get(part, rf"\<{part}>") if len(part) != 1 else part
-                for part in section.split("+")
-            ],
-        )
+        if section in SPECIAL_CASES:
+            spec += SPECIAL_CASES[section]
+        elif "shift" in section:
+            # Shift key is unsupported outside of known special cases
+            raise ValueError(f"Key combo {section} not yet supported")
+        else:
+            try:
+                spec += "-".join(
+                    [
+                        bindings_to_specs[part] if len(part) != 1 else part
+                        for part in section.split("+")
+                    ],
+                )
+            except KeyError as error:
+                raise ValueError(f"Unknown key: {error}") from None
     return spec

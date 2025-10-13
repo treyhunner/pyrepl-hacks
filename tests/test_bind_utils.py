@@ -106,10 +106,10 @@ class TestBindUtils(unittest.TestCase):
 
     def test_bind_to_insert_complex_key(self):
         """Test bind_to_insert with complex key combinations."""
-        bind_to_insert("Alt+Shift+N", "[1, 2, 3, 4]")
+        bind_to_insert("Ctrl+Alt+N", "[1, 2, 3, 4]")
 
         # Verify command was registered with slugified name
-        command_name = "_Alt_Shift_N"
+        command_name = "_Ctrl_Alt_N"
         self.assertIn(command_name, self.mock_reader.commands)
 
     def test_bind_special_keys(self):

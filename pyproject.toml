@@ -54,6 +54,9 @@ extend-select = [
     "SIM", # flake8-simplify
     "COM", # flake8-commas
 ]
+ignore = [
+    "SIM118",  # Use `key in dict` instead of `key in dict.keys()`
+]
 
 [tool.ruff.format]
 quote-style = "double"

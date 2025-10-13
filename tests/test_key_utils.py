@@ -58,8 +58,9 @@ class TestToKeyspec(unittest.TestCase):
         """Test page up/down keys."""
         self.assertEqual(to_keyspec("PgUp"), r"\<page up>")
         self.assertEqual(to_keyspec("PgDn"), r"\<page down>")
-        self.assertEqual(to_keyspec("PageUp"), r"\<pageup>")
-        self.assertEqual(to_keyspec("PageDown"), r"\<pagedown>")
+        # PageUp and PageDown (compact forms) also map to spaced keyspecs
+        self.assertEqual(to_keyspec("PageUp"), r"\<page up>")
+        self.assertEqual(to_keyspec("PageDown"), r"\<page down>")
 
     def test_special_cases(self):
         """Test special key combinations that have custom escape sequences."""
@@ -106,3 +107,29 @@ class TestToKeyspec(unittest.TestCase):
         # Test combinations that don't have special cases
         self.assertEqual(to_keyspec("Ctrl+Alt+A"), r"\C-\M-a")
         self.assertEqual(to_keyspec("Ctrl+F1"), r"\C-\<f1>")
+
+    def test_unknown_key_raises_value_error(self):
+        """Test that unknown or misspelled keys raise ValueError."""
+        with self.assertRaisesRegex(ValueError, "Unknown key"):
+            to_keyspec("Ctrl+Foo")
+        with self.assertRaisesRegex(ValueError, "Unknown key"):
+            to_keyspec("Ctrll+A")  # Typo: double 'l'
+        with self.assertRaisesRegex(ValueError, "Unknown key"):
+            to_keyspec("Alt+Xyz")
+
+    def test_unsupported_shift_combo_raises_value_error(self):
+        """Test that unsupported shift combinations raise ValueError."""
+        with self.assertRaisesRegex(ValueError, "not yet supported"):
+            to_keyspec("Shift+F1")
+        with self.assertRaisesRegex(ValueError, "not yet supported"):
+            to_keyspec("Ctrl+Shift+A")
+        with self.assertRaisesRegex(ValueError, "not yet supported"):
+            to_keyspec("Shift+A")
+
+    def test_keynames_integration(self):
+        """Test that keys from _pyrepl._keynames are properly resolved."""
+        # Test common keys that should be sourced from _keynames
+        self.assertEqual(to_keyspec("Enter"), r"\<enter>")
+        self.assertEqual(to_keyspec("Return"), r"\<return>")
+        self.assertEqual(to_keyspec("Ctrl+Enter"), r"\C-\<enter>")
+        self.assertEqual(to_keyspec("Backspace"), r"\<backspace>")
