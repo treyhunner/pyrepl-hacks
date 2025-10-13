@@ -1,6 +1,6 @@
 [project]
 name = "pyrepl-hacks"
-version = "0.1.2"
+version = "0.2.0"
 description = "Hacky extensions and helper functions for the new Python REPL."
 readme = "README.md"
 requires-python = ">=3.13,<3.15"
