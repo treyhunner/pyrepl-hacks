@@ -172,6 +172,8 @@ Just like `register_command`, `bind` decorator can also accept a `with_event=Tru
 Here are some of the interesting commands provided by Python (in `_pyrepl.commands`):
 
 - `clear-screen`: Clear screen (`Ctrl+L`)
+- `previous-history`: Show previous block (`Ctrl+P`)
+- `next-history`: Show next block (`Ctrl+N`)
 - `accept`: Run current code block (`Alt+Enter`)
 - `beginning-of-line`: Move cursor to the first character of the current line (`Ctrl+A` or `Home`)
 - `end-of-line`: Move cursor to the last character of the current line (`Ctrl+E` or `End`)

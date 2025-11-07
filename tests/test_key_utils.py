@@ -69,6 +69,13 @@ class TestToKeyspec(unittest.TestCase):
             with self.subTest(key_combo=key_combo):
                 self.assertEqual(to_keyspec(key_combo), expected_spec)
 
+    def test_ctrl_arrow_keys(self):
+        """Test that Ctrl+Arrow keys map to correct escape sequences."""
+        self.assertEqual(to_keyspec("Ctrl+Up"), r"\e[1;5A")
+        self.assertEqual(to_keyspec("Ctrl+Down"), r"\e[1;5B")
+        self.assertEqual(to_keyspec("Ctrl+Right"), r"\e[1;5C")
+        self.assertEqual(to_keyspec("Ctrl+Left"), r"\e[1;5D")
+
     def test_special_case_normalization(self):
         """Test that special cases work with different capitalization."""
         self.assertEqual(to_keyspec("ALT+UP"), r"\e[1;3A")
