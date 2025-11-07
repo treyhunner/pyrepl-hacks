@@ -1,6 +1,6 @@
 [project]
 name = "pyrepl-hacks"
-version = "0.2.0"
+version = "0.3.0"
 description = "Hacky extensions and helper functions for the new Python REPL."
 readme = "README.md"
 requires-python = ">=3.13,<3.15"
@@ -13,7 +13,6 @@ classifiers = [
     "Development Status :: 3 - Alpha",
     "Environment :: Console",
     "Intended Audience :: Developers",
-    "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.13",
