@@ -53,7 +53,8 @@ bump value:
 
 # Python Python package
 build:
-    uv build
+    uv sync  # Force uv version error if applicable
+    uv build --clear
 
 # Publish to PyPI
 publish:

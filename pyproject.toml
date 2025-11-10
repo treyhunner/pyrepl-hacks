@@ -36,6 +36,9 @@ lint = ["ruff", "rumdl"]
 typecheck = ["mypy"]
 dev = ["prek"]
 
+[tool.uv]
+required-version = ">=0.9.6"
+
 [tool.coverage.run]
 source = ["pyrepl_hacks", "tests"]
 
