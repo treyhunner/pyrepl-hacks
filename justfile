@@ -4,6 +4,8 @@ _default:
 
 # Install prek git hooks
 setup:
+    # https://github.com/astral-sh/uv/issues/7655#issuecomment-2600986729
+    UV_VENV_SEED=1 uv venv
     uv sync --all-groups
     uv run --group dev prek install
 
