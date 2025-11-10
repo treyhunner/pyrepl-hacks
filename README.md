@@ -11,6 +11,8 @@ repl.bind("Alt+Down", "move-line-down")     # Swap current line with next in blo
 repl.bind("Alt+Up", "move-line-up")         # Swap current line with previous in block
 repl.bind("Shift+Home", "home")             # Move to first character in the input
 repl.bind("Shift+End", "end")               # Move to last character in the input
+repl.bind("Alt+{", "previous-paragraph")  # Move to previous blank line
+repl.bind("Alt+}", "next-paragraph")    # Move to next blank line
 
 # Make Ctrl+N insert a specific list of numbers
 repl.bind_to_insert("Ctrl+N", "[2, 1, 3, 4, 7, 11, 18, 29]")
@@ -67,6 +69,8 @@ def _main():
         repl.bind("Alt+Up", "move-line-up")
         repl.bind("Shift+Home", "home")
         repl.bind("Shift+End", "end")
+        repl.bind("Alt+{", "previous-paragraph")
+        repl.bind("Alt+}", "next-paragraph")
 
         repl.bind_to_insert("Ctrl+N", "[2, 1, 3, 4, 7, 11, 18, 29]")
 
@@ -194,8 +198,10 @@ This `pyrepl-hacks` project provides some additional commands as well:
 - `dedent`: Dedent the whole code block
 - `move-line-down`: Swap current line with next one in the block
 - `move-line-up`: Swap current line with previous one in the block
+- `previous-paragraph`: Move to the previous blank line
+- `next-paragraph`: Move to the next blank line
 
-These 4 additional commands have no key bindings by default.
+These 6 additional commands have no key bindings by default.
 
 I recommend binding these commands as well as the `home` and `end` commands (provided by `_pyrepl.commands`) which are also unbound by default:
 
@@ -206,6 +212,8 @@ repl.bind("Alt+Down", "move-line-down")     # Swap current line with next in blo
 repl.bind("Alt+Up", "move-line-up")         # Swap current line with previous in block
 repl.bind("Shift+Home", "home")             # Move to first character in the input
 repl.bind("Shift+End", "end")               # Move to last character in the input
+repl.bind("Alt+{", "previous-paragraph")    # Move to previous blank line
+repl.bind("Alt+}", "next-paragraph")        # Move to next blank line
 ```
 
 Note that these custom REPL commands and all existing commands provided by `_pyrepl.commands` include wrapper functions in the `commands` submodule.

@@ -5,6 +5,8 @@ from pyrepl_hacks.commands import (
     move_line_down,
     move_line_up,
     move_to_indentation,
+    next_paragraph,
+    previous_paragraph,
 )
 
 from .support import ReaderTestMixin
@@ -299,3 +301,160 @@ class TestCommandsIntegration(unittest.TestCase, ReaderTestMixin):
         x, y = reader.pos2xy()
         # Should be at end of text
         self.assertEqual(reader.pos, 4)  # Length of "test"
+
+
+class TestPreviousParagraph(unittest.TestCase, ReaderTestMixin):
+    def test_previous_paragraph_basic(self):
+        """Test moving to blank line before current paragraph."""
+        text = "line1\nline2\n\nline4\nline5"
+        reader = self.create_reader(text, pos=20)  # Position in "line5"
+
+        previous_paragraph(reader)
+
+        # Should move to the blank line (position 12)
+        self.assertPositionEquals(reader, 12)
+
+    def test_previous_paragraph_from_first_paragraph(self):
+        """Test moving to previous paragraph when in first paragraph."""
+        text = "line1\nline2\n\nline4"
+        reader = self.create_reader(text, pos=5)  # Position in "line2"
+
+        previous_paragraph(reader)
+
+        # Should move to beginning of buffer
+        self.assertPositionEquals(reader, 0)
+
+    def test_previous_paragraph_multiple_blank_lines(self):
+        """Test moving to blank line before current paragraph with multiple blanks."""
+        text = "line1\n\n\n\nline5"
+        reader = self.create_reader(text, pos=10)  # Position in "line5"
+
+        previous_paragraph(reader)
+
+        # Should move to first blank line before current paragraph (position 6)
+        self.assertPositionEquals(reader, 6)
+
+    def test_previous_paragraph_from_blank_line_first(self):
+        """Test moving to previous paragraph when starting on first blank line."""
+        text = "line1\nline2\n\nline4"
+        reader = self.create_reader(text, pos=12)  # Position on blank line
+
+        previous_paragraph(reader)
+
+        # Should skip the blank line and move to start of first paragraph
+        self.assertPositionEquals(reader, 0)
+
+    def test_previous_paragraph_within_paragraph(self):
+        """Test moving to blank line when within a multi-line paragraph."""
+        text = "para1\n\npara2\nline2\n\npara3"
+        reader = self.create_reader(text, pos=13)  # Position in "line2" of para2
+
+        previous_paragraph(reader)
+
+        # Should move to blank line before para2 (position 6)
+        self.assertPositionEquals(reader, 6)
+
+    def test_previous_paragraph_from_blank_line_middle(self):
+        """Test moving from a blank line to previous blank line."""
+        text = "block1\n\nblock2\n\nblock3"
+        reader = self.create_reader(text, pos=7)  # On first blank line
+
+        previous_paragraph(reader)
+        # Should jump to beginning (no blank line before first paragraph)
+        self.assertPositionEquals(reader, 0)
+
+    def test_previous_paragraph_single_paragraph(self):
+        """Test moving to previous paragraph when there's only one paragraph."""
+        text = "line1\nline2\nline3"
+        reader = self.create_reader(text, pos=10)
+
+        previous_paragraph(reader)
+
+        # Should move to beginning
+        self.assertPositionEquals(reader, 0)
+
+    def test_previous_paragraph_from_first_line(self):
+        """Test moving to previous paragraph when already on first line."""
+        text = "line1\n\nline3"
+        reader = self.create_reader(text, pos=2)  # Position in first line
+
+        previous_paragraph(reader)
+
+        # Should stay at beginning
+        self.assertPositionEquals(reader, 0)
+
+
+class TestNextParagraph(unittest.TestCase, ReaderTestMixin):
+    def test_next_paragraph_basic(self):
+        """Test moving to blank line after current paragraph."""
+        text = "line1\nline2\n\nline4\nline5"
+        reader = self.create_reader(text, pos=5)  # Position in "line2"
+
+        next_paragraph(reader)
+
+        # Should move to the blank line (position 12)
+        self.assertPositionEquals(reader, 12)
+
+    def test_next_paragraph_from_last_paragraph(self):
+        """Test moving to next paragraph when in last paragraph."""
+        text = "line1\n\nline3\nline4"
+        reader = self.create_reader(text, pos=10)  # Position in "line3"
+
+        next_paragraph(reader)
+
+        # Should move to end of buffer
+        self.assertPositionEquals(reader, len(text))
+
+    def test_next_paragraph_multiple_blank_lines(self):
+        """Test moving to blank line after current paragraph with multiple blanks."""
+        text = "line1\n\n\n\nline5\nline6"
+        reader = self.create_reader(text, pos=2)  # Position in "line1"
+
+        next_paragraph(reader)
+
+        # Should move to first blank line after current paragraph (position 6)
+        self.assertPositionEquals(reader, 6)
+
+    def test_next_paragraph_from_blank_line(self):
+        """Test moving to next blank line when starting on blank line."""
+        text = "line1\n\nline3\n\nline5"
+        reader = self.create_reader(text, pos=6)  # Position on first blank line
+
+        next_paragraph(reader)
+
+        # Should skip to blank line after next paragraph (position 13)
+        self.assertPositionEquals(reader, 13)
+
+    def test_next_paragraph_single_paragraph(self):
+        """Test moving to next paragraph when there's only one paragraph."""
+        text = "line1\nline2\nline3"
+        reader = self.create_reader(text, pos=5)
+
+        next_paragraph(reader)
+
+        # Should move to end
+        self.assertPositionEquals(reader, len(text))
+
+    def test_next_paragraph_from_last_line(self):
+        """Test moving to next paragraph when already on last line."""
+        text = "line1\n\nline3"
+        reader = self.create_reader(text, pos=10)  # Position in last line
+
+        next_paragraph(reader)
+
+        # Should move to end
+        self.assertPositionEquals(reader, len(text))
+
+    def test_next_paragraph_three_paragraphs(self):
+        """Test moving through multiple paragraphs."""
+        text = "para1\n\npara2\n\npara3"
+        reader = self.create_reader(text, pos=0)
+
+        next_paragraph(reader)
+        self.assertPositionEquals(reader, 6)  # First blank line
+
+        next_paragraph(reader)
+        self.assertPositionEquals(reader, 13)  # Second blank line
+
+        next_paragraph(reader)
+        self.assertPositionEquals(reader, len(text))  # End of buffer

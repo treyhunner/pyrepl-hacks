@@ -42,6 +42,10 @@ class MockReader:
         last_newline = text.rfind("\n")
         return last_newline + 1
 
+    def error(self, msg="none"):
+        """Mock error method that sets dirty flag."""
+        self.dirty = True
+
 
 def assert_buffer_equals(test_case, reader, expected_text):
     """Assert that the reader's buffer contains the expected text."""
