@@ -48,7 +48,7 @@ For example, you could install pyrepl-hacks into a `~/.pyhacks` directory:
 
 ```console
 mkdir -p ~/.pyhacks
-python -m pip install pyrepl-hacks --target ~/.pyhacks
+python -m pip install --upgrade pyrepl-hacks --target ~/.pyhacks
 ```
 
 Then you can use it in a `~/.pythonrc` file:
