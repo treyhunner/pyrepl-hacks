@@ -8,35 +8,11 @@ from collections.abc import Callable
 from typing import Protocol
 
 # Type aliases for different string meanings
-type KeySpec = str  # like r"\C-c" (readline-style key specification)
-type KeyBinding = str  # like "Ctrl+C" (human-readable key description)
-type ColorName = str  # like "blue" (color name)
-type AnsiEscape = str  # like "\x1b[34m" (ANSI escape sequence)
-type CommandName = str  # like "interrupt" (command identifier)
-
-# Common callable patterns
-type CommandDecorator = Callable[
-    [CommandHandler],
-    CommandFunction,
-]  # Decorator that transforms handlers to functions
-type CommandRegistrar = Callable[
-    [CommandHandler],
-    CommandFunction,
-]  # Command registration callable
-
-__all__ = [
-    "Command",
-    "CommandHandler",
-    "CommandFunction",
-    "CommandDecorator",
-    "CommandRegistrar",
-    "HistoricalReader",
-    "KeySpec",
-    "KeyBinding",
-    "ColorName",
-    "AnsiEscape",
-    "CommandName",
-]
+KeySpec = str  # like r"\C-c" (readline-style key specification)
+KeyBinding = str  # like "Ctrl+C" (human-readable key description)
+ColorName = str  # like "blue" (color name)
+AnsiEscape = str  # like "\x1b[34m" (ANSI escape sequence)
+CommandName = str  # like "interrupt" (command identifier)
 
 
 class CommandHandler(Protocol):
@@ -65,3 +41,30 @@ class CommandFunction(Protocol):
     name: str
 
     def __call__(self, reader: HistoricalReader) -> None: ...
+
+
+# Common callable patterns
+CommandDecorator = Callable[
+    ["CommandHandler"],
+    "CommandFunction",
+]  # Decorator that transforms handlers to functions
+
+CommandRegistrar = Callable[
+    ["CommandHandler"],
+    "CommandFunction",
+]  # Command registration callable
+
+
+__all__ = [
+    "Command",
+    "CommandHandler",
+    "CommandFunction",
+    "CommandDecorator",
+    "CommandRegistrar",
+    "HistoricalReader",
+    "KeySpec",
+    "KeyBinding",
+    "ColorName",
+    "AnsiEscape",
+    "CommandName",
+]
