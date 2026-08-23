@@ -18,7 +18,7 @@ just setup
 
 ## Running Tests
 
-Run tests on both Python 3.13 and 3.14 with coverage:
+Run tests on Python 3.13, 3.14, and 3.15 with coverage:
 
 ```console
 just test

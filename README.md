@@ -36,7 +36,7 @@ This library relies on Python implementation details which may change in future 
 This library uses the `_pyrepl` module (and optionally `_colorize`).
 As the `_` prefix implies, these modules are not designed for public use.
 
-That means that when you upgrade to a newer Python (for example Python 3.15) this code may break.
+That means that when you upgrade to a newer Python (for example Python 3.16) this code may break.
 For that reason, the Python versions this package claims to work with are pinned to only known-to-be-working Python versions.
 
 
