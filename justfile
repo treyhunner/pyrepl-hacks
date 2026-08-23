@@ -10,8 +10,8 @@ setup:
     uv run --group dev prek install
 
 # Run prek hooks manually
-prek:
-    uv run --group dev prek run
+prek *args:
+    uv run --group dev prek run {{ args }}
 
 # Run the tests on both Python versions
 test *args:
@@ -41,6 +41,7 @@ fmt:
     uv run --group lint ruff format
     uv run --group lint rumdl fmt --fix
     uv run --group typecheck mypy --strict pyrepl_hacks
+    @just prek --all-files
 
 # Run all quality checks, auto-formatting, and run tests
 check:
